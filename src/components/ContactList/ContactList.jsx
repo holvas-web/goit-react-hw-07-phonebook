@@ -1,23 +1,15 @@
-// import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DeleteBtn, List, ListItem, Marker } from './ContactList.styled';
-import { deleteContact } from 'redux/contactsSlice';
-import { getContacts, getFilterByName } from 'redux/selectors';
-
-const getVisibleContacts = (contacts, filter) =>
-  contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
-  );
+import { selectVisibleContacts } from 'redux/selectors';
+import { deleteContact } from 'redux/operations';
 
 export const ContactList = () => {
-  const contacts = useSelector(getContacts);
-  const filterByName = useSelector(getFilterByName);
-  const visibleContacts = getVisibleContacts(contacts, filterByName);
+  const contacts = useSelector(selectVisibleContacts);
   const dispatch = useDispatch();
 
   return (
     <List>
-      {visibleContacts.map(contact => (
+      {contacts.map(contact => (
         <ListItem key={contact.id}>
           <Marker></Marker>
           <p>
